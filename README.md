@@ -5,14 +5,18 @@ Or the full name Victoria II save game war analyzer. Naming stuff is hard.
 Paradox forum thread: [link](https://forum.paradoxplaza.com/forum/index.php?threads/tool-victoria-ii-save-game-war-analyzer.689055/)
 
 ## Download links
-* Version 1.0.1 that works with Java 7 [link](http://bit.ly/2iMy2L0)
-* New version 1.2.1 that works with Java 8 [link](http://bit.ly/2esre3N)
+* Version 1.0.1 that works with Java 7 [link](http://bit.ly/1Q9VicX)
+* New version 1.2.1 that works with Java 8 [link](http://bit.ly/1aKLrtk)
 * Or you can look inside the dist folder for all the versions. 
 
 ## What is it
 The analyzer reads the save game produced by Victoria II (it's a strategy game, look it up) and presents all the wars in a family-friendly way. The program retrieves all the data that can be retrieved from the save file, such as total losses in a war, all the battles, wargoals and the war participants.
 
 Most of the counties have a flag with them. Originally I planned to find all of them from the Victori II directory, but it converting .svg to a format usable by JavaFX turned out to be too difficult.
+
+The flags of the mods are found as well. The `gfx/flags` folder of every mod in the install directory and in the Paradox user folder is searched, the mod of the save game first. Mods mostly use the TGA format, which is converted while reading. Extra mod folders can be added in the settings tab, separated with a semicolon.
+
+The names of the countries of a mod are found as well. The `localisation` folder of the mod of the save game is read before the one of the game itself, so a mod that renames its countries no longer ends up with the vanilla names. Mods name a country after its government as well, as `USA_hms_government`, so the government of every country is read from the save game to find the name the game shows for it. A save game without a mod is only given the names of the game itself.
 
 This analyzer is NOT a fully-fledged save game analyzer. It does one thing and does it reasonably well.
 
@@ -42,7 +46,9 @@ Wargoals tab:
 
 * Some versions of Modern Age Mod produce save games that won't work with the analyzer. The newest versions should however work. 
 
-* The analyzer will only show country names and flags for HoD vanilla countries.
+* The names of the mods are only used when the save game is one of that mod. A save game of a mod that is not installed is given the names of every mod that is found, which may not be the right ones. Point to the mod folder in the settings tab to get the right names.
+
+* The localisation files are read as ISO-8859-1, the way the game itself reads them.
 
 ## Tools
 * Java 8
