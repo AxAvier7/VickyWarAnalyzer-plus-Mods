@@ -5,9 +5,10 @@ Or the full name Victoria II save game war analyzer. Naming stuff is hard.
 Paradox forum thread: [link](https://forum.paradoxplaza.com/forum/index.php?threads/tool-victoria-ii-save-game-war-analyzer.689055/)
 
 ## Download links
+* Version 1.2.1 for Windows: exe with a bundled Java, no installation needed, [release](https://github.com/AxAvier7/VickyWarAnalyzer-plus-Mods/releases/latest)
 * Version 1.0.1 that works with Java 7 [link](http://bit.ly/1Q9VicX)
 * New version 1.2.1 that works with Java 8 [link](http://bit.ly/1aKLrtk)
-* Or you can look inside the dist folder for all the versions. 
+* Or you can look inside the dist folder for all the versions.
 
 ## What is it
 The analyzer reads the save game produced by Victoria II (it's a strategy game, look it up) and presents all the wars in a family-friendly way. The program retrieves all the data that can be retrieved from the save file, such as total losses in a war, all the battles, wargoals and the war participants.
@@ -21,12 +22,11 @@ The names of the countries of a mod are found as well. The `localisation` folder
 This analyzer is NOT a fully-fledged save game analyzer. It does one thing and does it reasonably well.
 
 ### Instructions
-1. Make sure you have Java 8 installed on your computer
-2. Run the jar file
-3. Specify the save game. Usually the save games are in `C:\Users\USERNAME\Documents\Paradox Interactive\Victoria II\save games\`
-4. Optionally you can point to the Victoria II install directory. The analyzer will retrieve the country names from there. 
-5. Click "Read file" and see how terrible your wars have been. 
-6. The analyzer will create a file called "paths.txt" in the jar directory. This stores the path to the last used save game directory.
+1. Download and unpack `VickyWarAnalyzer-<version>-win64.zip`, then run `VickyWarAnalyzer.exe`. It needs no installation and no Java, a Java 8 runtime with JavaFX is bundled in the `jre` folder
+2. Specify the save game. Usually the save games are in `C:\Users\USERNAME\Documents\Paradox Interactive\Victoria II\save games\`
+3. Optionally you can point to the Victoria II install directory. The analyzer will retrieve the country names from there. 
+4. Click "Read file" and see how terrible your wars have been. 
+5. The analyzer will create a file called "paths.txt" next to the executable. This stores the path to the last used save game directory.
 
 ### Screenshots
 All wars tab:
@@ -57,12 +57,15 @@ Wargoals tab:
 * Maven JavaFX plugin https://github.com/zonski/javafx-maven-plugin
 
 ### Build process
-If you really want to build your own version of this then go right ahead. I'm going to assume you know what Maven is and how to install it. You need to have Java 8.
+The analyzer needs a **Java 8 runtime with JavaFX**. Recent Oracle JREs no longer ship JavaFX, so a plain `java` on the PATH is not enough. Building the launcher additionally needs gcc from MinGW-w64.
 
-1. Download this repository
-2. Run `mvn install` in the base directory. Everything should install without problems.
-3. Run `mvn jfx:jar` to compile it into a jar. The result an be found in `target/jfx/app`.
-4. Use `mvn eclipse:eclipse` to generate the project files for Eclipse. You might also need the m2e Eclipse plugin.
+1. Put a JavaFX enabled Java 8 JDK (Zulu "FX" or Liberica "full" build) into `tools\jdk8fx`, or point `JAVA_HOME` at one. `build.cmd` uses it to compile.
+2. Run `build.cmd`. It compiles the sources into `target\classes`, packs `target\vickywaranalyzer-%VERSION%-jfx.jar` and builds the native launcher `target\VickyWarAnalyzer.exe` from `src\launcher`. No Maven needed.
+3. Run `package.cmd` for the full portable package. It writes `release\VickyWarAnalyzer-<VERSION>-win64\` with the launcher, the jar, the bundled `jre` and a short readme, and zips it as `release\VickyWarAnalyzer-<VERSION>-win64.zip`. Everything in `release` is build output and is not committed.
+
+`VickyWarAnalyzer.exe` is a thin 64 bit launcher: it runs the `jre` next to itself, or falls back to `JAVA_HOME` and to `javaw.exe` on the PATH. The `jre` folder can be deleted for people who already have Java 8 with JavaFX. The jar can also be run by hand with any JavaFX enabled Java 8.
+
+If you prefer Maven, `mvn install` and then `mvn jfx:jar` build the same jar, but those still need a JavaFX enabled Java 8 in `JAVA_HOME`.
 
 ### Code 
 The UI design was made by me and with Java 7 it looked fine. With Java 8 it doesn't. Thanks, Oracle. Due to this, some words will be hidden and some tables will have empty columns.

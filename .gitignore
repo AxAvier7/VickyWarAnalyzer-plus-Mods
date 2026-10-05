@@ -18,6 +18,7 @@ hs_err_pid*
 .classpath
 target/
 tools/
+release/
 Victoria II war analyzer.iml
 .idea
 
